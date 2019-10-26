@@ -1,29 +1,20 @@
 #![allow(dead_code)]
 
-use pest::error::ErrorVariant::CustomError as CustomPestError;
 use pest::Parser;
+use std::collections::HashMap;
 
-use super::super::program::Program;
-use super::tokens::{Instruction, Instructions};
-
-#[derive(Parser)]
-#[grammar = "metatape/parser/grammar.pest"]
-struct Grammar;
-
-type ParseError = pest::error::Error<Rule>;
-type TokenPair<'a> = pest::iterators::Pair<'a, Rule>;
-type TokenPairs<'a> = pest::iterators::Pairs<'a, Rule>;
+use super::{parse_error, Grammar, ParseError, Rule, TokenPair};
+use crate::metatape::program::{Instruction, Instructions, Program, Subroutines};
 
 /// Take a string input and produce a program containing a sequence of
 /// instructions and a hashmap of suborutines. This program will still contain
 /// unresolved jumps; it requires syntactic processing before it can be execute.
-pub(super) fn tokenize(program_string: &str) -> Result<Program, ParseError> {
-    let main_pair = Grammar::parse(Rule::main, program_string)?
+pub fn tokenize(program_str: &str) -> Result<Program, ParseError> {
+    let main_pair = Grammar::parse(Rule::main, program_str)?
         .next()
         .expect("No main token");
-    let mut program = Program::new();
-    let instructions = &mut program.instructions;
-    let subroutines = &mut program.subroutines;
+    let mut instructions: Instructions = vec![];
+    let mut subroutines: Subroutines = HashMap::new();
     for pair in main_pair.into_inner() {
         match pair.as_rule() {
             Rule::EOI => (),
@@ -37,7 +28,11 @@ pub(super) fn tokenize(program_string: &str) -> Result<Program, ParseError> {
             _ => panic!("Invalid token inside main: {:?}", pair.as_rule()),
         }
     }
-    Ok(program)
+    Ok(Program {
+        source: program_str,
+        instructions,
+        subroutines,
+    })
 }
 
 fn tokenize_subroutine(pair: TokenPair) -> Result<(String, Instructions), ParseError> {
@@ -157,11 +152,4 @@ fn tokenize_basic_instruction(pair: TokenPair) -> Result<Instruction, String> {
         "@" => Err("Subroutines cannot be defined inside a subroutine or block".to_owned()),
         _ => Err(format!("Unrecognized instruction: {:?}", pair.as_str())),
     }
-}
-
-fn parse_error<T>(span: pest::Span, message: String) -> Result<T, ParseError> {
-    Err(pest::error::Error::new_from_span(
-        CustomPestError { message },
-        span,
-    ))
 }

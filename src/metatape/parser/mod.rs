@@ -1,8 +1,25 @@
-mod lexical;
-pub mod tokens;
+use pest::error::ErrorVariant::CustomError as CustomPestError;
 
 use super::program::Program;
 
-pub fn parse(string: &str) -> Result<Program, String> {
-    lexical::tokenize(string).or_else(|err| Err(err.to_string()))
+mod lexical;
+mod syntactic;
+
+#[derive(Parser)]
+#[grammar = "metatape/parser/grammar.pest"]
+struct Grammar;
+
+pub type ParseError = pest::error::Error<Rule>;
+type TokenPair<'a> = pest::iterators::Pair<'a, Rule>;
+type TokenPairs<'a> = pest::iterators::Pairs<'a, Rule>;
+
+fn parse_error<T>(span: pest::Span, message: String) -> Result<T, ParseError> {
+    Err(pest::error::Error::new_from_span(
+        CustomPestError { message },
+        span,
+    ))
+}
+
+pub fn parse(string: &str) -> Result<Program, ParseError> {
+    lexical::tokenize(string).and_then(syntactic::resolve_jumps)
 }
