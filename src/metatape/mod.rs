@@ -1,3 +1,2 @@
+pub mod parser;
 mod program;
-mod runtime;
-mod tape;

@@ -1,0 +1,32 @@
+main = {
+    SOI
+    ~ ( subroutine_def | !"@" ~ instruction )*
+    ~ EOI
+}
+
+WHITESPACE = _{ WHITE_SPACE }
+COMMENT = _{ block_comment | line_comment }
+
+block_comment = _{ "/*" ~ (!"*/" ~ ANY)* ~ "*/" }
+line_comment = _{ "//" ~ (!NEWLINE ~ ANY)* ~ NEWLINE }
+
+subroutine_def = { "@" ~ subroutine_name ~ block }
+subroutine_name = ${ (WHITESPACE* ~ word)* }
+
+instruction = {
+    block
+    | block_instruction
+    | string_instruction
+    | basic_instruction
+}
+
+basic_instruction = { char }
+string_instruction = { ( "l" | "!" ) ~ string }
+block_instruction = { "f" ~ instruction }
+
+block = { "{" ~ instruction* ~ "}" }
+
+// TODO do not allow comment in string
+string = ${ char | "{" ~ (WHITESPACE* ~ word)* ~ WHITESPACE* ~ "}" }
+word = ${ char+ }
+char = { !( WHITE_SPACE | "{" | "}" | "/") ~ ANY }
