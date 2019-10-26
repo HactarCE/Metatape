@@ -1,16 +1,18 @@
-use crate::metatape::program::Program;
-use crate::metatape::tape::Head;
+#![allow(dead_code)]
 
-pub struct Runtime {
+use super::program::Program;
+use super::tape::Head;
+
+pub struct Runtime<'a> {
     head: Head,
-    program: Program,
+    program: &'a Program<'a>,
 }
 
-impl Runtime {
-    pub fn new() -> Runtime {
+impl<'a> Runtime<'a> {
+    pub fn new(program: &'a Program) -> Runtime<'a> {
         Runtime {
             head: Head::new(),
-            program: Program::new(),
+            program: program,
         }
     }
 }
