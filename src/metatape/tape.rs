@@ -15,6 +15,38 @@ struct Tape {
     right: Option<Arc<Cell>>, // extends right
 }
 
+impl fmt::Display for Head {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if let Some(left) = &self.left {
+            f.write_str(&format!("{}", left).chars().rev().collect::<String>())?;
+        }
+        f.write_str(&format!(
+            "[{}]",
+            match self.child {
+                Some(_) => "#",
+                None => "_",
+            },
+        ))?;
+        if let Some(right) = &self.right {
+            f.write_str(&format!("{}", right))?;
+        }
+        Ok(())
+    }
+}
+
+impl fmt::Display for Cell {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(match self.child {
+            Some(_) => " # ",
+            None => " _ ",
+        })?;
+        if let Some(next) = &self.next {
+            f.write_str(&format!("{}", next))?;
+        }
+        Ok(())
+    }
+}
+
 impl std::default::Default for Tape {
     fn default() -> Self {
         Self {
