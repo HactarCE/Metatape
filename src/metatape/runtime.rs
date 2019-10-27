@@ -8,8 +8,6 @@ use std::io;
 use super::program::{Instruction, Instructions, Program};
 use super::tape::Head;
 
-const PRINT_STATE: bool = false;
-
 pub struct Runtime<'a> {
     head: Head,
     program: &'a Program<'a>,
@@ -18,16 +16,18 @@ pub struct Runtime<'a> {
     input_buffer: StdInBitBuffer,
     /// Buffor of output bits. The highest bit is at index 0, and the lowest bit is at index 7.
     output_buffer: StdOutBitBuffer,
+    verbose: bool,
 }
 
 impl<'a> Runtime<'a> {
-    pub fn new(program: &'a Program) -> Runtime<'a> {
-        Runtime {
+    pub(super) fn new(program: &'a Program, verbose: bool) -> Self {
+        Self {
             head: Head::new(),
-            program: program,
+            program,
             program_stack: vec![(&program.instructions, 0, None)],
             input_buffer: StdInBitBuffer::new(),
             output_buffer: StdOutBitBuffer::new(),
+            verbose,
         }
     }
 
@@ -102,15 +102,16 @@ impl<'a> Runtime<'a> {
                     return Err(RuntimeError::Halt);
                 }
             }
-            if PRINT_STATE {
+            if self.verbose {
                 let (row, col) =
                     pest::Position::new(self.program.source, *current_instruction_str_idx)
                         .unwrap()
                         .line_col();
                 println!(
-                    "{:>5}:{:<6}{:<14}{:<2}{}",
+                    "{:>5}:{:<6}{:<4}{:<14}{:<2}{}",
                     row,
                     col,
+                    old_ip,
                     format!("{:?}", current_instruction),
                     if old_ip != self.program_stack.last().unwrap().1 {
                         "j"
