@@ -243,7 +243,7 @@ This cat prints a null character `0x00` and then exits at the end of the input o
 xn<(|])
 ```
 
-Minified: `[ex>eex<<<<<<<<[eexix>(n|])[<(])[>(eo(xx<n>e|x)])xn<(|])`
+Minified: `[ex>eex<<<<<<<<[eexix>(n|])[<(])[>(eo(xx<n>e|x)])xn<(|])` (56 chars)
 
 #### Unterminated cat
 
@@ -277,4 +277,4 @@ This cat exits at the end of the input or the first null but does _not_ print a 
 xn<])
 ```
 
-Minified: `[ex>eex<<<<<<<<[eexi(xx<n>e|x)>(n|])x<(|>e[<(])[>(eox])xn<])`
+Minified: `[ex>eex<<<<<<<<[eexi(xx<n>e|x)>(n|])x<(|>e[<(])[>(eox])xn<])` (60 chars)
