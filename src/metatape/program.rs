@@ -1,7 +1,4 @@
 use std::collections::HashMap;
-use std::fmt;
-
-use super::parser;
 
 pub type Instructions = Vec<(usize, Instruction)>;
 pub type Subroutines = HashMap<String, Instructions>;
@@ -42,7 +39,7 @@ pub enum Instruction {
     // IOMode(IOMode),
     // Seek(String),
     Call(String),
-    Load(String),
+    // Load(String),
     Fork(Box<Instructions>),
 }
 
