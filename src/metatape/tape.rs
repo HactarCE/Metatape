@@ -1,5 +1,7 @@
+use std::fmt;
 use std::sync::Arc;
 
+#[derive(Clone)]
 pub struct Head {
     parent: Option<Arc<Tape>>, // extends up
     child: Option<Arc<Tape>>,  // extends down
@@ -103,30 +105,34 @@ impl Head {
         let parent = self.parent.clone().unwrap_or_default();
         Head {
             parent: parent.next.clone(),
-            child: if let (None, None, None) = (&self.left, &self.child, &self.right) {
-                None
-            } else {
-                Some(Arc::new(Tape {
-                    next: self.child.clone(),
-                    left: self.left.clone(),
-                    right: self.right.clone(),
-                }))
-            },
+            child: Some(Arc::new(Tape {
+                next: self.child.clone(),
+                left: self.left.clone(),
+                right: self.right.clone(),
+            })),
             left: parent.left.clone(),
             right: parent.right.clone(),
         }
     }
 
     fn set_child(&self, new_child: Option<Arc<Tape>>) -> Head {
-        return Head {
-            parent: self.child.clone(),
-            child: new_child.clone(),
+        Head {
+            parent: self.parent.clone(),
+            child: new_child,
             left: self.left.clone(),
             right: self.right.clone(),
-        };
+        }
     }
 
     pub fn null_child(&self) -> Head {
         self.set_child(None)
+    }
+
+    pub fn has_child(&self) -> bool {
+        self.child.is_some()
+    }
+
+    pub fn copy_child_from(&mut self, other: &Head) -> Head {
+        self.set_child(other.child.clone())
     }
 }
