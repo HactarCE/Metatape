@@ -21,7 +21,7 @@ instruction = {
 }
 
 basic_instruction = { char }
-string_instruction = { ( "l" | "!" ) ~ string }
+string_instruction = { "!" ~ string }
 block_instruction = { "f" ~ instruction }
 
 block = { "{" ~ instruction* ~ "}" }

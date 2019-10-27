@@ -127,7 +127,6 @@ fn tokenize_string_instruction(pair: TokenPair) -> Result<Instruction, String> {
         .as_str();
     Ok(match instruction_char {
         '!' => Instruction::Call,
-        'l' => Instruction::Load,
         _ => panic!("Unrecognized string instruction: {:#?}", instruction_char),
     }(string_arg.to_owned()))
 }
