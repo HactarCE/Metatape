@@ -1,12 +1,16 @@
 ex<
-!h !e !l !l !o !_ !w !o !r !l !d !!
+// The tape head is now pointing to a null cell, with a non-null cell to the
+// right.
+!H !e !l !l !o !_ !w !o !r !l !d !!
 
-@ _ { oo>o<ooooo }
-@ ! { oo>o<oooo>o< }
-@ d { o>oo<oo>o<oo }
+// Each of these functions moves left for a 1 bit and right for a 0 bit to
+// output the ASCII value for the given character.
+@ H { o>o<oo>o<ooo }
 @ e { o>oo<oo>o<o>o< }
-@ h { o>o<oo>o<ooo }
 @ l { o>oo<o>oo<oo }
 @ o { o>oo<o>oooo< }
-@ r { o>ooo<oo>o<o }
+@ _ { oo>o<ooooo }
 @ w { o>ooo<o>ooo< }
+@ r { o>ooo<oo>o<o }
+@ d { o>oo<oo>o<oo }
+@ ! { oo>o<oooo>o< }
