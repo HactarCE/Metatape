@@ -19,6 +19,6 @@ fn parse_error<T>(span: pest::Span, message: String) -> Result<T, ParseError> {
     ))
 }
 
-pub fn parse(string: &str) -> Result<Program, ParseError> {
+pub(super) fn parse(string: &str) -> Result<Program, ParseError> {
     lexical::tokenize(string).and_then(syntactic::resolve_jumps)
 }
