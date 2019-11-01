@@ -6,6 +6,7 @@ mod tape;
 
 pub type Program = program::Program;
 pub type Runtime = runtime::Runtime;
+pub type RuntimeError = runtime::RuntimeError;
 
 pub fn program_from_file(filename: &str) -> Result<Program, String> {
     Ok(filename)

@@ -135,13 +135,7 @@ impl Runtime {
                 self.output_buffer.write_bit(bit);
             }
             Instruction::Halt => {
-                // Ignore the returned Result because we don't care if we are
-                // currently at the last instruction; we'll just raise an error
-                // next time this function is called.
-                let _ = self.go_to_next_instruction();
-                println!("halt!");
                 return Err(RuntimeError::Halt);
-                // TODO improve this behavior
             }
         }
         if let Call {
@@ -210,6 +204,14 @@ impl Runtime {
     pub fn set_output_fn(&mut self, output_function: Box<dyn Fn(u8)>) {
         self.output_buffer.byte_writer = output_function;
     }
+
+    pub fn unhalt(&mut self) -> Result<(), RuntimeError> {
+        if let Ok((_, Instruction::Halt)) = self.fetch_instruction() {
+            self.go_to_next_instruction()
+        } else {
+            Err(RuntimeError::NotHalted)
+        }
+    }
 }
 
 pub struct ExecDebugInfo {
@@ -222,4 +224,5 @@ pub enum RuntimeError {
     InstructionPointerOutOfBounds,
     SubroutineNotFound(String),
     Halt,
+    NotHalted,
 }

@@ -25,9 +25,13 @@ fn main() {
     let mut result = Ok(());
     while result.is_ok() {
         if verbose {
-            result = runtime.debug_step().map(|s| println!("{}", s))
+            result = runtime.debug_step()
         } else {
             result = runtime.step().map(|_| ());
+        }
+        if let Err(metatape::RuntimeError::Halt) = result {
+            println!("HALT");
+            result = runtime.unhalt();
         }
     }
     if verbose {
