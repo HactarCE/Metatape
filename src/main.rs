@@ -16,9 +16,13 @@ fn main() {
         println!("{}", error_msg);
         std::process::exit(1);
     });
+    if verbose {
+        runtime.set_output_fn(Box::new(|byte| {
+            println!("Output byte {:#02x}: {:#?}", byte, byte as char);
+        }))
+    }
 
     let mut result = Ok(());
-
     while result.is_ok() {
         if verbose {
             result = runtime.debug_step().map(|s| println!("{}", s))
