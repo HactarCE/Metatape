@@ -164,7 +164,7 @@ impl Head {
         self.child.is_some()
     }
 
-    pub fn copy_child_from(&mut self, other: &Head) -> Head {
+    pub fn copy_child_from(&self, other: &Head) -> Head {
         self.set_child(other.child.clone())
     }
 }

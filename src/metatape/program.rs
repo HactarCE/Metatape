@@ -1,13 +1,15 @@
 use std::collections::HashMap;
+use std::rc::Rc;
 
-pub type Instructions = Vec<(usize, Instruction)>;
-pub type Subroutines = HashMap<String, Instructions>;
+pub type InstructionSeq = Vec<(usize, Instruction)>;
+pub type InstructionBlock = Rc<InstructionSeq>;
+pub type Subroutines = HashMap<String, InstructionBlock>;
 
 #[derive(Debug)]
-pub struct Program<'a> {
-    pub source: &'a str,
+pub struct Program {
+    pub source: String,
     pub subroutines: Subroutines,
-    pub instructions: Instructions,
+    pub instructions: InstructionBlock,
 }
 
 #[derive(Debug)]
@@ -27,7 +29,7 @@ pub enum Instruction {
     Loop,
     EndLoop(usize),
 
-    Block(Box<Instructions>),
+    Block(InstructionBlock),
 
     Random,
 
@@ -40,7 +42,7 @@ pub enum Instruction {
     // Seek(String),
     Call(String),
     // Load(String),
-    Fork(Box<Instructions>),
+    Fork(InstructionBlock),
 }
 
 // impl fmt::Debug for Instruction {
