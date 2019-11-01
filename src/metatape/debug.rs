@@ -10,11 +10,11 @@ impl Runtime {
                 .unwrap()
                 .line_col();
         ret.push_str(&format!(
-            "{row:>5}:{col:<6}{ip:<4}{instruction:<14?}",
+            "{row:>5}:{col:<6}{ip:<4}{instruction:<14}",
             row = row,
             col = col,
             ip = self.get_instruction_pointer(),
-            instruction = current_instruction,
+            instruction = format!("{:?}", current_instruction),
         ));
         let exec_debug = self.step()?;
         ret.push_str(&format!(
