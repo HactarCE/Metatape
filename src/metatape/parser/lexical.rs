@@ -60,7 +60,7 @@ impl SemanticParser {
                     Rule::instruction => self.tokenize_instruction(inner_pair),
                     _ => parse_error(
                         span,
-                        format!("Invalid token inside block: {:?}", inner_pair.as_str()),
+                        format!("Invalid token inside block: {:?}", inner_pair.as_rule()),
                     ),
                 }?,
             ));
