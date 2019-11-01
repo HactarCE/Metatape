@@ -123,11 +123,11 @@ impl SemanticParser {
             .chars()
             .next()
             .expect("String instruction contains no instruction");
-        let string_arg = pair
-            .into_inner()
-            .next()
-            .expect("String instruction contains no argument")
-            .as_str();
+        let string_arg = self.tokenize_string(
+            pair.into_inner()
+                .next()
+                .expect("String instruction contains no argument"),
+        );
         Ok(match instruction_char {
             '!' => Instruction::Call,
             _ => panic!("Unrecognized string instruction: {:#?}", instruction_char),
