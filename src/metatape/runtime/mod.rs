@@ -100,7 +100,9 @@ impl Runtime {
                     self.program
                         .subroutines
                         .get(subroutine_name)
-                        .ok_or(RuntimeError::SubroutineNotFound)?
+                        .ok_or_else(|| {
+                            RuntimeError::SubroutineNotFound(subroutine_name.to_string())
+                        })?
                         .clone(),
                 );
             }
@@ -218,6 +220,6 @@ pub struct ExecDebugInfo {
 pub enum RuntimeError {
     EndOfProgram,
     InstructionPointerOutOfBounds,
-    SubroutineNotFound,
+    SubroutineNotFound(String),
     Halt,
 }
