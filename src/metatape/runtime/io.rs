@@ -4,7 +4,7 @@ use std::io;
 pub struct StdInBitBuffer {
     byte: u8,
     bit_idx: u8,
-    byte_reader: Box<dyn Fn() -> u8>,
+    pub byte_reader: Box<dyn Fn() -> u8>,
 }
 
 impl StdInBitBuffer {
@@ -29,7 +29,7 @@ impl StdInBitBuffer {
 pub struct StdOutBitBuffer {
     byte: u8,
     bit_idx: u8,
-    byte_writer: Box<dyn Fn(u8)>,
+    pub byte_writer: Box<dyn Fn(u8)>,
 }
 
 impl StdOutBitBuffer {

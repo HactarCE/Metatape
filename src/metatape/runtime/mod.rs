@@ -200,6 +200,14 @@ impl Runtime {
             }
         }
     }
+
+    pub fn set_input_fn(&mut self, input_function: Box<dyn Fn() -> u8>) {
+        self.input_buffer.byte_reader = input_function;
+    }
+
+    pub fn set_output_fn(&mut self, output_function: Box<dyn Fn(u8)>) {
+        self.output_buffer.byte_writer = output_function;
+    }
 }
 
 pub struct ExecDebugInfo {
