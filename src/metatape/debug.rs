@@ -1,31 +1,33 @@
-use super::runtime::RuntimeError;
-use super::Runtime;
+use super::{Runtime, RuntimeError};
 
 impl Runtime {
-    pub fn debug_step(&mut self) -> Result<String, RuntimeError> {
-        let mut ret = String::new();
+    pub fn debug_step(&mut self) -> Result<(), RuntimeError> {
         let (current_instruction_str_idx, current_instruction) = self.fetch_instruction()?;
         let (row, col) =
             pest::Position::new(&self.get_program().source, *current_instruction_str_idx)
                 .unwrap()
                 .line_col();
-        ret.push_str(&format!(
-            "{row:>5}:{col:<6}{ip:<4}{instruction:<14}",
+        print!(
+            "{row:>5}:{col:<5}{ip:>3} {instruction:<14}",
             row = row,
             col = col,
             ip = self.get_instruction_pointer(),
             instruction = format!("{:?}", current_instruction),
-        ));
-        let exec_debug = self.step()?;
-        ret.push_str(&format!(
-            "{bit:<2}{head}",
-            bit = match exec_debug.bit {
-                Some(false) => "0",
-                Some(true) => "1",
-                None => "",
+        );
+        let step_result = self.step();
+        print!(
+            "{bit:<2}",
+            bit = if let Ok(exec_debug) = &step_result {
+                match exec_debug.bit {
+                    Some(false) => "0",
+                    Some(true) => "1",
+                    None => "",
+                }
+            } else {
+                ""
             },
-            head = self.get_head()
-        ));
-        Ok(ret)
+        );
+        println!("{:#}", self.get_head());
+        step_result.map(|_| ())
     }
 }

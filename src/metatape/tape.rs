@@ -1,4 +1,5 @@
 use std::fmt;
+use std::fmt::Write;
 use std::sync::Arc;
 
 #[derive(Clone)]
@@ -18,17 +19,22 @@ struct Tape {
 impl fmt::Display for Head {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if let Some(left) = &self.left {
-            f.write_str(&format!("{}", left).chars().rev().collect::<String>())?;
+            let left_neighbors = if f.alternate() {
+                format!("{:#}", left)
+            } else {
+                format!("{}", left)
+            };
+            f.write_str(&left_neighbors.chars().rev().collect::<String>())?;
         }
-        f.write_str(&format!(
-            "[{}]",
-            match self.child {
-                Some(_) => "#",
-                None => "_",
-            },
-        ))?;
+        f.write_char('[')?;
+        fmt_cell_depth(f, &self.child)?;
+        f.write_char(']')?;
         if let Some(right) = &self.right {
-            f.write_str(&format!("{}", right))?;
+            if f.alternate() {
+                f.write_str(&format!("{:#}", right))?;
+            } else {
+                f.write_str(&format!("{}", right))?;
+            }
         }
         Ok(())
     }
@@ -36,15 +42,36 @@ impl fmt::Display for Head {
 
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.write_str(match self.child {
-            Some(_) => " # ",
-            None => " _ ",
-        })?;
+        f.write_char(' ')?;
+        fmt_cell_depth(f, &self.child)?;
+        f.write_char(' ')?;
         if let Some(next) = &self.next {
-            f.write_str(&format!("{}", next))?;
+            if f.alternate() {
+                f.write_str(&format!("{:#}", next))?;
+            } else {
+                f.write_str(&format!("{}", next))?;
+            }
         }
         Ok(())
     }
+}
+
+fn fmt_cell_depth(f: &mut fmt::Formatter<'_>, child: &Option<Arc<Tape>>) -> fmt::Result {
+    f.write_char(match child {
+        None => '_',
+        Some(child) => {
+            if f.alternate() {
+                let depth = child.get_depth();
+                if depth > 9 {
+                    '#'
+                } else {
+                    format!("{}", depth).chars().next().unwrap()
+                }
+            } else {
+                '#'
+            }
+        }
+    })
 }
 
 impl std::default::Default for Tape {
@@ -166,5 +193,14 @@ impl Head {
 
     pub fn copy_child_from(&self, other: &Head) -> Head {
         self.set_child(other.child.clone())
+    }
+}
+
+impl Tape {
+    fn get_depth(&self) -> usize {
+        match &self.next {
+            None => 0,
+            Some(next) => next.get_depth() + 1,
+        }
     }
 }
