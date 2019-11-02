@@ -90,10 +90,23 @@
         [(e(x|exx<]))
         // We have now found the rightmost 1 bit. Zero it.
         enx
-        // Return to the start.
-        [>(])<
+        !{_ trim leading zeros}
     )
     hx
+}
+
+
+@ _ trim leading zeros {
+    // Find left end.
+    [<(])
+    // Null all leading zeros, as long as there are bits.
+    [>(e(x|xn])
+        // If we haven't run out of bits, find the right end.
+        [>(])<
+    |
+        // If we have, make a zero bit instead of null.
+        ex
+    )
 }
 
 
@@ -122,16 +135,7 @@
 @ e { !{b1} !{b1} !{b1} !{b0} }
 @ f { !{b1} !{b1} !{b1} !{b1} }
 @ ] {
-    // Find left end.
-    [<(])
-    // Null all leading zeros, as long as there are bits.
-    [>(e(x|xn])
-        // If we haven't run out of bits, find the right end.
-        [>(])<
-    |
-        // If we have, make a zero bit instead of null.
-        ex
-    )
+    !{_ trim leading zeros}
     x
 }
 @ b0 { >ex }
