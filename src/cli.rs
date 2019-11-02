@@ -31,5 +31,9 @@ pub fn get_config() -> Result<Config, ()> {
 pub fn print_usage() {
     let program = std::env::args().next().unwrap();
     let brief = format!("Usage: {} [options] <filename>", program);
-    println!("{}", get_opts().usage(&brief));
+    println!(
+        "Metatape v{}\n\n{}",
+        env!("CARGO_PKG_VERSION"),
+        get_opts().usage(&brief)
+    );
 }
