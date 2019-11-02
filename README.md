@@ -21,7 +21,7 @@ Metatape is an esoteric programming language with just two data types: null and 
 
 ## Introduction
 
-Metatape is somewhat like a Turing machine; a single "pointer" moves left and right along a "tape." This tape is initially filled with null values, but if the pointer enters a null cell (a spot on the tape), a new tape is created within that cell. The new tape is also initialized to null. The pointer can then exit this tape, returning to the original.
+Metatape is somewhat like a Turing machine; a single "pointer" moves left and right along an infinite (i.e. dynamically-allocated) "tape." This tape is initially filled with null values, but if the pointer enters a null cell (a spot on the tape), a new tape is created within that cell. The new tape is also initialized to null. The pointer can then exit this tape, returning to the original.
 
 * A tape a dynamically allocated bidirectional array of cells (it can grow indefinitely)
 * A cell either contains another tape, or null
