@@ -7,14 +7,15 @@ impl Runtime {
             pest::Position::new(&self.get_program().source, *current_instruction_str_idx)
                 .unwrap()
                 .line_col();
-        print!(
+        let s = format!(
             "{row:>5}:{col:<5}{ip:>3} {instruction:<14}",
             row = row,
             col = col,
             ip = self.get_instruction_pointer(),
-            instruction = format!("{:?}", current_instruction),
+            instruction = format!("{}", current_instruction),
         );
         let step_result = self.step();
+        print!("{}", s);
         print!(
             "{bit:<2}",
             bit = if let Ok(exec_debug) = &step_result {
