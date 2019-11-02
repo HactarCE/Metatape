@@ -320,7 +320,7 @@ Here is a mostly-minified version of the program; the full program, including co
 }
 
 @printdigit { e>oo<oo<<<(eox|o)>(eox|o)>(eox|o)>(eox|o)x }
-@ dec { e>f{<x!{=0?}}(n<|<[(e(x|exx<]))enx!{_trimleadingzeros})x }
+@ dec { e>f{<x!{=0?}}(n<|<[(e(x|exx<]))enx!{_trim leading zeros})x }
 @ _ trim leading zeros { [<(])[>(e(x|xn])[>(])<|ex) }
 @ =0? { f{ee(|x<(|nx|n)|n)} }
 @ =1? { f{ee(x<(|nx|n)|n)} }
