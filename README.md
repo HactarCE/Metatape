@@ -123,6 +123,12 @@ When calling subroutines whose name is only a single character, the `{}` braces 
 
 ## Usage
 
+### Executable
+
+Unfortunately I'm having issues with cross-compilation, so only Linux executables are available for now. You can down the [latest release here](https://github.com/HactarCE/Metatape/releases/latest), and call it from the terminal.
+
+### Compile from source
+
 1. [Install `cargo`](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 2. Clone this repository: `git clone https://github.com/HactarCE/Metatape.git && cd Metatape`
 3. Run one of the examples: `cargo run -- examples/hello.mt`
