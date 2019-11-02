@@ -169,6 +169,9 @@ impl Runtime {
                 exec_block_fn(runtime);
                 head_fn(runtime);
             }));
+            while let Err(RuntimeError::InstructionPointerOutOfBounds) = self.fetch_instruction() {
+                self.go_to_next_instruction()?;
+            }
         }
         Ok(exec_debug_info)
     }
