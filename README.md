@@ -208,7 +208,7 @@ A "cat" program simply outputs whatever is given as input, like the Unix command
 
 This cat prints null characters `0x00` forever after the input ends.
 
-[cat_simple.mt](examples/cat_simple.mt)
+[`cat_simple.mt`](examples/cat_simple.mt)
 
 ```
 // Loop forever, inputting a bit and outputting the same bit.
@@ -219,7 +219,7 @@ This cat prints null characters `0x00` forever after the input ends.
 
 This cat prints a null character `0x00` and then exits at the end of the input or at the first null.
 
-[cat_null.mt](examples/cat_null.mt)
+[`cat_null.mt`](examples/cat_null.mt)
 
 ```c
 // For each byte ...
@@ -248,6 +248,8 @@ Minified: `[ex>eex<<<<<<<<[eexix>(n|])[<(])[>(eo(xx<n>e|x)])xn<(|])` (56 chars)
 #### Unterminated cat
 
 This cat exits at the end of the input or the first null but does _not_ print a null character. This is the behavior of Unix `cat`.
+
+[`cat_no_null.mt`](examples/cat_no_null.mt)
 
 ```c
 // For each byte ...
