@@ -55,10 +55,6 @@ impl Runtime {
         // Fetch the current block.
         let (_current_instruction_str_idx, current_instruction) = self.fetch_instruction()?;
         let mut exec_debug_info = ExecDebugInfo { bit: None };
-        // let old_exec_block = self.executing_block;
-        // let old_ip = self.instruction_pointer;
-        // let new_stack_entry: Option<Box<dyn FnMut(&mut Runtime)>> = None;
-        // let new_executing_block: Option<&InstructionBlock> = None;
         struct Call {
             new_executing_block: Option<InstructionBlock>,
             head_restore_function: Option<Box<dyn FnOnce(&Head, &Head) -> Head>>,
