@@ -2,7 +2,7 @@
 
 # Metatape
 
-Meta is an esoteric programming language with just two data types: null and tape.
+Metatape is an esoteric programming language with just two data types: null and tape.
 
 * [Introduction](#introduction)
 * [Comments and whitespace](#comments-and-whitespace)
