@@ -17,6 +17,7 @@ Meta is an esoteric programming language with just two data types: null and tape
 * [Examples](#examples)
     - [Hello world](#hello-world)
     - [Cat](#cat)
+    - [99 Bottles](#99-bottles)
 
 ## Introduction
 
@@ -280,3 +281,77 @@ xn<])
 ```
 
 Minified: `[ex>eex<<<<<<<<[eexi(xx<n>e|x)>(n|])x<(|>e[<(])[>(eox])xn<])` (60 chars)
+
+### 99 Bottles
+
+[The archetypal esoteric programming language challenge](https://esolangs.org/wiki/99_bottles_of_beer): printing the lyrics to "99 Bottles of Beer"
+
+Here is a mostly-minified version of the program; the full program, including comments, can be found in [`99_bottles.mt`](examples/99_bottles.mt).
+
+```c
+!{=9}>!{=9}>[
+    !{print bottle count}!{" bottles of beer on the wall"}!{newline}
+    !{print bottle count}!{" bottles of beer"}!{newline}
+    !{"Take one down, pass it around"}!{newline}
+    >(n<|<!{dec bottles}>f{ << !{=1?} ( < !{=0?} ) }<
+    !{print bottle count}!{" bottles of beer on the wall"}!{newline}
+    !{newline}
+])
+
+!N!o!{" bottles of beer on the wall"}!{newline}
+!{newline}
+!N!o!{" bottles of beer on the wall"}!{newline}
+!N!o!{" bottles of beer"}!{newline}
+!G!o!_!t!o!_!t!h!e!_!s!t!o!r!e!,!_!b!u!y!_!s!o!m!e!_!m!o!r!e!{newline}
+!9!9!{" bottles of beer on the wall"}!{newline}
+
+@ dec bottles { f{<!{=0?}}(<<!{dec}>!{=9}>|<!{dec}>)n }
+
+@ print bottle count { f{<<!{=0?}}(n|<<!{printdigit}>>)<!{printdigit}> }
+
+@ " bottles of beer" {
+    !_!b!o!t!t!l!e >(<|<!s) !_!o!f!_!b!e!e!r
+}
+@ " bottles of beer on the wall" {
+    !{" bottles of beer"}!_!o!n!_!t!h!e!_!w!a!l!l
+}
+@ "Take one down, pass it around" {
+    !T!a!k!e!_ >(<!i!t|<!o!n!e) !_!d!o!w!n!,!_!p!a!s!s!_!i!t!_!a!r!o!u!n!d
+}
+
+@printdigit { e>oo<oo<<<(eox|o)>(eox|o)>(eox|o)>(eox|o)x }
+@ dec { e>f{<x!{=0?}}(n<|<[(e(x|exx<]))enx!{_trimleadingzeros})x }
+@ _ trim leading zeros { [<(])[>(e(x|xn])[>(])<|ex) }
+@ =0? { f{ee(|x<(|nx|n)|n)} }
+@ =1? { f{ee(x<(|nx|n)|n)} }
+@ =9 { eeexx>ex>ex>eexxx }
+
+@ , { oo<o>o<oo>oo }
+@ 9 { oo<ooo>oo<o> }
+@ newline { oooo<o>o<o>o }
+@ _ { oo<o>ooooo }
+@ a { o<oo>oooo<o> }
+@ b { o<oo>ooo<o>o }
+@ c { o<oo>ooo<oo> }
+@ d { o<oo>oo<o>oo }
+@ e { o<oo>oo<o>o<o> }
+@ f { o<oo>oo<oo>o }
+@ G { o<o>ooo<ooo> }
+@ h { o<oo>o<o>ooo }
+@ i { o<oo>o<o>oo<o> }
+@ k { o<oo>o<o>o<oo> }
+@ l { o<oo>o<oo>oo }
+@ m { o<oo>o<oo>o<o> }
+@ N { o<o>oo<ooo>o }
+@ n { o<oo>o<ooo>o }
+@ o { o<oo>o<oooo> }
+@ p { o<ooo>oooo }
+@ r { o<ooo>oo<o>o }
+@ s { o<ooo>oo<oo> }
+@ T { o<o>o<o>o<o>oo }
+@ t { o<ooo>o<o>oo }
+@ u { o<ooo>o<o>o<o> }
+@ w { o<ooo>o<ooo> }
+@ x { o<oooo>ooo }
+@ y { o<oooo>oo<o> }
+```
