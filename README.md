@@ -125,7 +125,7 @@ When calling subroutines whose name is only a single character, the `{}` braces 
 
 1. [Install `cargo`](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 2. Clone this repository: `git clone https://github.com/HactarCE/Metatape.git && cd Metatape`
-3. Run one of the examples: `cargo run -- examples/hello_world.mt`
+3. Run one of the examples: `cargo run -- examples/hello.mt`
 
 ## Implementation
 
