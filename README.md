@@ -1,5 +1,3 @@
-**The specification found at [Metatape's wiki page](https://esolangs.org/wiki/Metatape) is out-of-date, and will be updated soon.**
-
 # Metatape
 
 Metatape is an esoteric programming language with just two data types: null and tape.
@@ -18,6 +16,8 @@ Metatape is an esoteric programming language with just two data types: null and 
     - [Hello world](#hello-world)
     - [Cat](#cat)
     - [99 Bottles](#99-bottles)
+
+See also: [Metatape](https://esolangs.org/wiki/Metatape) on the [Esoteric programming languages wiki](https://esolangs.org/wiki/Main_Page)
 
 ## Introduction
 
