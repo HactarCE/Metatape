@@ -174,7 +174,7 @@ pub fn move_left(&self) -> Head {
 }
 ```
 
-The various calls to `.clone()` are just increment the `Arc`'s reference count, allowing another immutable reference to the same data. The `if let (None, None) = (&self.right, &self.child) { None }` condition is an optimization to discard empty cells.
+The various calls to `.clone()` just increment the `Arc`'s reference count, allowing another immutable reference to the same data. The `if let (None, None) = (&self.right, &self.child) { None }` condition is an optimization to discard empty cells.
 
 ## Examples
 
