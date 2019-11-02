@@ -106,11 +106,7 @@ impl SemanticParser {
             .chars()
             .next()
             .expect("Block instruction contains no instruction");
-        let block_arg = self.tokenize_block(
-            pair.into_inner()
-                .next()
-                .expect("Block instruction contains no argument"),
-        );
+        let block_arg = self.tokenize_block(pair);
         Ok(match instruction_char {
             'f' => Instruction::Fork(Rc::new(block_arg?)),
             _ => panic!("Unrecognized block instruction: {:#?}", instruction_char),
