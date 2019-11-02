@@ -44,11 +44,11 @@
 
 /// Predicate functions destroy the current cell, returning truthy if true and
 /// null if false.
-@ zero? {
+@ =0? {
     f{ // Fork
         e
         // Check that the lowest bit is 0 ...
-        e(x|x
+        e(|x
             // ... and that the next bit doesn't exist
             <(|
                 nx // Return true.
@@ -56,6 +56,20 @@
         |n) // Else return false.
     }
 }
+
+@ =1? {
+    f{
+        e
+        // Check that the lowest bit is 1 ...
+        e(x
+            // ... and that the nex tbit does'nt exist.
+            <(|
+                nx // Return true.
+            |n) // Else return false.
+        |n) // Else return false.
+    }
+}
+
 
 @ inc {
     e
@@ -71,7 +85,7 @@
 @ dec {
     e
     // If nonzero ...
-    > f{ <x !{zero?} } (n<|<
+    > f{ <x !{=0?} } (n<|<
         // While the current bit is 0, set it to 1 and move left.
         [(e(x|exx<]))
         // We have now found the rightmost 1 bit. Zero it.
