@@ -21,8 +21,15 @@ impl SemanticParser {
                     instructions.push((pair.as_span().start(), self.tokenize_instruction(pair)?))
                 }
                 Rule::subroutine_def => {
+                    let span = pair.as_span();
                     let (name, mut sub_instructions) = self.tokenize_subroutine(pair)?;
                     self.resolve_jumps(&mut sub_instructions)?;
+                    if subroutines.contains_key(&name) {
+                        parse_error(
+                            span,
+                            format!("Duplicate subroutine definition with name {:?}", name),
+                        )?;
+                    }
                     subroutines.insert(name, Rc::new(sub_instructions));
                 }
                 _ => panic!("Invalid token inside main: {:?}", pair.as_rule()),
