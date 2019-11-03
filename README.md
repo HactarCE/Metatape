@@ -206,7 +206,7 @@ This cat prints a null character `0x00` and then exits at the end of the input o
 xn<(|])
 ```
 
-Minified: `[ex>eex<<<<<<<<[eexix>(n|])[<(])[>(eo(xx<n>e|x)])xn<(|])` (56 chars)
+Minified: `[ex>eex<<<<<<<<[eexix>(n|])[<(])[>(eo(xx<n>e|x)])xn<(|])` (56 chars; 28 bytes using golf encoding)
 
 #### Unterminated cat
 
@@ -242,7 +242,7 @@ This cat exits at the end of the input or the first null but does _not_ print a 
 xn<])
 ```
 
-Minified: `[ex>eex<<<<<<<<[eexi(xx<n>e|x)>(n|])x<(|>e[<(])[>(eox])xn<])` (60 chars)
+Minified: `[ex>eex<<<<<<<<[eexi(xx<n>e|x)>(n|])x<(|>e[<(])[>(eox])xn<])` (60 chars; 30 bytes using golf encoding)
 
 ### 99 Bottles
 
@@ -332,7 +332,7 @@ x[>(])exx<<ee(xx>>eeexxx<<ee)xx>>e[<(])>e)x<exx<<ee)xx>>en>([x>oo<oo>o
 oo<eeox>(])x>oooo<o>o<o>o<e[<(])>x<<e)]))])
 ```
 
-(253 characters -- could definitely be made shorter)
+(253 chars; 127 bytes using golf encoding)
 
 ## Golf encoding
 
