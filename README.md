@@ -4,19 +4,20 @@ Metatape is an esoteric programming language with just two data types: null and 
 
 * [Introduction](#introduction)
 * [Comments and whitespace](#comments-and-whitespace)
-* [Basic instructions](#basic)
+* [Mechanics](#mechanics)
+    - [Basic instructions](#basic)
     - [Conditions](#conditions)
     - [Loops](#loops)
-* [Blocks](#blocks)
-* [Forking](#forking)
-* [Subroutines](#subroutines)
+    - [Blocks](#blocks)
+    - [Forking](#forking)
+    - [Subroutines](#subroutines)
 * [Usage](#usage)
-* [Implementation](#implementation)
 * [Examples](#examples)
     - [Hello world](#hello-world)
     - [Cat](#cat)
     - [99 Bottles](#99-bottles)
     - [Bitwise Cyclic Tag](#bitwise-cyclic-tag)
+* [Implementation](#implementation)
 
 See also: [Metatape](https://esolangs.org/wiki/Metatape) on the [Esoteric programming languages wiki](https://esolangs.org/wiki/Main_Page)
 
@@ -39,7 +40,9 @@ Basic Metatape is purely imperative. Supermetatape adds support for comments and
 
 Line comments begin with `//` and end with a line break. Block comments begin with `/*` and end with `*/`. Comments and whitespace are ignored anywhere that instructions are allowed. See [**Subroutines**](#subroutines) for whitespace handling in subroutine names.
 
-## Basic instructions
+## Mechanics
+
+### Basic instructions
 
 All instructions in Basic Metatape are a single character long.  Instructions are case-insensitive.
 
@@ -94,11 +97,11 @@ The `]` instruction unconditionally jumps backward to the matching `[`. This can
 
 etc.
 
-## Blocks
+### Blocks
 
 Code may be surrounded by `{` and `}` to form a block. Conditions and loops may not cross the boundary between blocks. For some instructions, such as [`f`](#forking), blocks may be used to collapse a sequence of characters into a single one
 
-## Forking
+### Forking
 
 `f` is a special instruction, "Fork." It must be followed either by a single instruction (`f.`) or an instruction block (`f{...}`).
 
@@ -106,7 +109,7 @@ When the runtime encounters a fork instruction, it first saves the current state
 
 The main use of the fork instruction is copying data (e.g. `f<` to copy the contents of the cell on the left into the current one), but it can also be used to sandbox subroutines (e.g. `f!{messy subroutine}` prevents the messy subroutine from wrecking any data outside the current cell)
 
-## Subroutines
+### Subroutines
 
 Subroutines may be defined anywhere in the file that is not within another subroutine or code block.
 
@@ -133,55 +136,6 @@ Unfortunately I'm having issues with cross-compilation, so only Linux executable
 1. [Install `cargo`](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 2. Clone this repository: `git clone https://github.com/HactarCE/Metatape.git && cd Metatape`
 3. Run one of the examples: `cargo run -- examples/hello.mt`
-
-## Implementation
-
-This interpreter is written in Rust and represents the internal data structure using a sort of 2D [zipper](https://en.wikipedia.org/wiki/Zipper_(data_structure)) of linked lists. There are three structs, defined in [`src/metatape/tape.rs`](src/metatape/tape.rs):
-
-```rust
-pub struct Head {
-    parent: Option<Arc<Tape>>, // extends up
-    child: Option<Arc<Tape>>,  // extends down
-    left: Option<Arc<Cell>>,   // extends left
-    right: Option<Arc<Cell>>,  // extends right
-}
-
-struct Tape {
-    next: Option<Arc<Tape>>,  // extends up/down
-    left: Option<Arc<Cell>>,  // extends left
-    right: Option<Arc<Cell>>, // extends right
-}
-
-struct Cell {
-    child: Option<Arc<Tape>>, // extends down
-    next: Option<Arc<Cell>>,  // extends left/right
-}
-```
-
-[`Option`](https://doc.rust-lang.org/std/option/) allows the value to be `None` (so that the structure as a whole can be finite without loops) and [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) allows multiple references to the same object. `Head` is the root of the data structure. Extending "left" and "right" are other cells in the same tape. Extending "down" are the contents of this cell, the contents of this cell's contents, etc. And extending "up" are the tape containing this cell, the tape containing the tape containing this cell, etc.
-
-When traversing the tape, the current `Head` is discarded and a new one is constructed using the cell or tape in the appropriate direction, appending the current `Head`'s values in the opposite direction. For example, here is the function to move right along the tape (corresponding to the `>` instuction):
-
-```rust
-pub fn move_left(&self) -> Head {
-    let left = self.left.clone().unwrap_or_default();
-    Head {
-        parent: self.parent.clone(),
-        child: left.child.clone(),
-        left: left.next.clone(),
-        right: if let (None, None) = (&self.right, &self.child) {
-            None
-        } else {
-            Some(Arc::new(Cell {
-                child: self.child.clone(),
-                next: self.right.clone(),
-            }))
-        },
-    }
-}
-```
-
-The various calls to `.clone()` just increment the `Arc`'s reference count, allowing another immutable reference to the same data. The `if let (None, None) = (&self.right, &self.child) { None }` condition is an optimization to discard empty cells.
 
 ## Examples
 
@@ -378,3 +332,52 @@ oo<eeox>(])x>oooo<o>o<o>o<e[<(])>x<<e)]))])
 ```
 
 (253 characters -- could definitely be made shorter)
+
+## Implementation
+
+This interpreter is written in Rust and represents the internal data structure using a sort of 2D [zipper](https://en.wikipedia.org/wiki/Zipper_(data_structure)) of linked lists. There are three structs, defined in [`src/metatape/tape.rs`](src/metatape/tape.rs):
+
+```rust
+pub struct Head {
+    parent: Option<Arc<Tape>>, // extends up
+    child: Option<Arc<Tape>>,  // extends down
+    left: Option<Arc<Cell>>,   // extends left
+    right: Option<Arc<Cell>>,  // extends right
+}
+
+struct Tape {
+    next: Option<Arc<Tape>>,  // extends up/down
+    left: Option<Arc<Cell>>,  // extends left
+    right: Option<Arc<Cell>>, // extends right
+}
+
+struct Cell {
+    child: Option<Arc<Tape>>, // extends down
+    next: Option<Arc<Cell>>,  // extends left/right
+}
+```
+
+[`Option`](https://doc.rust-lang.org/std/option/) allows the value to be `None` (so that the structure as a whole can be finite without loops) and [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) allows multiple references to the same object. `Head` is the root of the data structure. Extending "left" and "right" are other cells in the same tape. Extending "down" are the contents of this cell, the contents of this cell's contents, etc. And extending "up" are the tape containing this cell, the tape containing the tape containing this cell, etc.
+
+When traversing the tape, the current `Head` is discarded and a new one is constructed using the cell or tape in the appropriate direction, appending the current `Head`'s values in the opposite direction. For example, here is the function to move right along the tape (corresponding to the `>` instuction):
+
+```rust
+pub fn move_left(&self) -> Head {
+    let left = self.left.clone().unwrap_or_default();
+    Head {
+        parent: self.parent.clone(),
+        child: left.child.clone(),
+        left: left.next.clone(),
+        right: if let (None, None) = (&self.right, &self.child) {
+            None
+        } else {
+            Some(Arc::new(Cell {
+                child: self.child.clone(),
+                next: self.right.clone(),
+            }))
+        },
+    }
+}
+```
+
+The various calls to `.clone()` just increment the `Arc`'s reference count, allowing another immutable reference to the same data. The `if let (None, None) = (&self.right, &self.child) { None }` condition is an optimization to discard empty cells.
