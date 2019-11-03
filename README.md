@@ -215,7 +215,7 @@ A "cat" program simply outputs whatever is given as input, like the Unix command
 
 This cat prints null characters `0x00` forever after the input ends.
 
-[`cat_simple.mt`](examples/cat_simple.mt)
+[`examples/cat_simple.mt`](examples/cat_simple.mt)
 
 ```
 // Loop forever, inputting a bit and outputting the same bit.
@@ -226,7 +226,7 @@ This cat prints null characters `0x00` forever after the input ends.
 
 This cat prints a null character `0x00` and then exits at the end of the input or at the first null.
 
-[`cat_null.mt`](examples/cat_null.mt)
+[`examples/cat_null.mt`](examples/cat_null.mt)
 
 ```c
 // For each byte ...
@@ -256,7 +256,7 @@ Minified: `[ex>eex<<<<<<<<[eexix>(n|])[<(])[>(eo(xx<n>e|x)])xn<(|])` (56 chars)
 
 This cat exits at the end of the input or the first null but does _not_ print a null character. This is the behavior of Unix `cat`.
 
-[`cat_no_null.mt`](examples/cat_no_null.mt)
+[`examples/cat_no_null.mt`](examples/cat_no_null.mt)
 
 ```c
 // For each byte ...
@@ -292,7 +292,7 @@ Minified: `[ex>eex<<<<<<<<[eexi(xx<n>e|x)>(n|])x<(|>e[<(])[>(eox])xn<])` (60 cha
 
 [The archetypal esoteric programming language challenge](https://esolangs.org/wiki/99_bottles_of_beer): printing the lyrics to "99 Bottles of Beer"
 
-Here is a mostly-minified version of the program; the full program, including comments, can be found in [`99_bottles.mt`](examples/99_bottles.mt).
+Here is a mostly-minified version of the program; the full program, including comments, can be found in [`examples/99_bottles.mt`](examples/99_bottles.mt).
 
 ```c
 !{=9}>!{=9}>[
