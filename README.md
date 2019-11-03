@@ -17,6 +17,7 @@ Metatape is an esoteric programming language with just two data types: null and 
     - [Cat](#cat)
     - [99 Bottles](#99-bottles)
     - [Bitwise Cyclic Tag](#bitwise-cyclic-tag)
+* [Golf encoding](#golf-encoding)
 * [Implementation](#implementation)
 
 See also: [Metatape](https://esolangs.org/wiki/Metatape) on the [Esoteric programming languages wiki](https://esolangs.org/wiki/Main_Page)
@@ -332,6 +333,37 @@ oo<eeox>(])x>oooo<o>o<o>o<e[<(])>x<<e)]))])
 ```
 
 (253 characters -- could definitely be made shorter)
+
+## Golf encoding
+
+Metatape is not primarily intended to be used for [code golf](https://en.wikipedia.org/wiki/Code_golf), but in case anyone is interested in using it for code golf, here is a canonical encoding for compressing Metatape. This encoding was invented on 2019-11-02, so it can be used competetively on any challenges posted after that date.
+
+| Instruction | Hexadecimal sequence | Byte count |
+|:------------|:---------------------|:-----------|
+| `.`         | `0`                  | 0.5        |
+| `+`         | `1`                  | 0.5        |
+| `(`         | `2`                  | 0.5        |
+| `)`         | `3`                  | 0.5        |
+| `<`         | `4`                  | 0.5        |
+| `>`         | `5`                  | 0.5        |
+| `e`         | `6`                  | 0.5        |
+| `x`         | `7`                  | 0.5        |
+| `i`         | `8`                  | 0.5        |
+| `o`         | `9`                  | 0.5        |
+| `[`         | `a`                  | 0.5        |
+| `]`         | `b`                  | 0.5        |
+| `{`         | `c`                  | 0.5        |
+| `}`         | `d`                  | 0.5        |
+| `n`         | `e`                  | 0.5        |
+| `?`         | `f0`                 | 1.0        |
+| `h`         | `f1`                 | 1.0        |
+| `@_{`       | `f2__`               | 2.0        |
+| `!_`        | `f3__`               | 2.0        |
+| `f`         | `f4`                 | 1.0        |
+| `@`         | `fa`                 | 1.0        |
+| `!{`        | `fb`                 | 1.0        |
+
+The bytes `f2` and `f3` must be followed by a single ASCII character, which is the name of the subroutine. Only 256 unique subroutines may be defined or called using `f2` and `f3`; beyond that, `fa` and `fb` must be used, which more directly correspond to ASCII Metatape.
 
 ## Implementation
 
