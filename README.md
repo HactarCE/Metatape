@@ -16,6 +16,7 @@ Metatape is an esoteric programming language with just two data types: null and 
     - [Hello world](#hello-world)
     - [Cat](#cat)
     - [99 Bottles](#99-bottles)
+    - [Bitwise Cyclic Tag](#bitwise-cyclic-tag)
 
 See also: [Metatape](https://esolangs.org/wiki/Metatape) on the [Esoteric programming languages wiki](https://esolangs.org/wiki/Main_Page)
 
@@ -361,3 +362,19 @@ Here is a mostly-minified version of the program; the full program, including co
 @ x { o<oooo>ooo }
 @ y { o<oooo>oo<o> }
 ```
+
+### Bitwise Cyclic Tag
+
+[Bitwise Cyclic Tag](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) is one of the simplest [Turing tarpits](https://esolangs.org/wiki/Turing_tarpit), making it an easy target for emulation to prove Turing-completeness. The following program (unminified and commented in [`examples/bct.mt`](examples/bct.mt)) emulates Bitwise Cyclic Tag (which is itself Turing-complete), proving that Metatape is Turing-complete:
+
+```c
+// Usage: Input program as ASCII '0's and '1's, then a single space, and then
+// input the initial data-string as ASCII '0's and '1's. The program may not be
+// empty.
+ex<<ex>[e[iiiexi>iiiexi<(x<e>exx>e>(x<eeexxx>e)])x>(>])<n<e[<(])>x<<e[
+x>>e(x<<e[<(])[>(x>>e(x<<ee({xx>ex<e>(x>n<e)x>(n<e[<(])>x>)<ee}xx>>ee(
+x[>(])exx<<ee(xx>>eeexxx<<ee)xx>>e[<(])>e)x<exx<<ee)xx>>en>([x>oo<oo>o
+oo<eeox>(])x>oooo<o>o<o>o<e[<(])>x<<e)]))])
+```
+
+(253 characters -- could definitely be made shorter)
