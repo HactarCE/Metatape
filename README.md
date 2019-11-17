@@ -391,7 +391,7 @@ struct Cell {
 
 [`Option`](https://doc.rust-lang.org/std/option/) allows the value to be `None` (so that the structure as a whole can be finite without loops) and [`Arc`](https://doc.rust-lang.org/std/sync/struct.Arc.html) allows multiple references to the same object. `Head` is the root of the data structure. Extending "left" and "right" are other cells in the same tape. Extending "down" are the contents of this cell, the contents of this cell's contents, etc. And extending "up" are the tape containing this cell, the tape containing the tape containing this cell, etc.
 
-When traversing the tape, the current `Head` is discarded and a new one is constructed using the cell or tape in the appropriate direction, appending the current `Head`'s values in the opposite direction. For example, here is the function to move right along the tape (corresponding to the `>` instuction):
+When traversing the tape, the current `Head` is discarded and a new one is constructed using the cell or tape in the appropriate direction, appending the current `Head`'s values in the opposite direction. For example, here is the function to move left along the tape (corresponding to the `<` instuction):
 
 ```rust
 pub fn move_left(&self) -> Head {
