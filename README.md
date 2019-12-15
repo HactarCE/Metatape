@@ -56,7 +56,7 @@ All instructions in Basic Metatape are a single character long.  Instructions ar
 | `e`  | Enter    | Enter the current cell                                                             |
 | `x`  | Exit     | Exit the current cell                                                              |
 | `(`  | If       | Do `^?`                                                                            |
-| `|`  | Else     | Skip forward to the matching `\|` or `)`                                           |
+| `\|` | Else     | Skip forward to the matching `\|` or `)`                                           |
 | `)`  | End If   | No operation                                                                       |
 | `[`  | Loop     | No operation                                                                       |
 | `]`  | End Loop | Skip backward to the matching `[`                                                  |
@@ -79,8 +79,8 @@ The instructions `(`, `|`, and `)` can be used to construct the if-else statemen
 | Metatape | Pseudocode                            |
 |:---------|:--------------------------------------|
 | `(A)`    | `if (current cell) { A }`             |
-| `(A|B)`  | `if (current cell) { A } else { B }`  |
-| `(|B)`   | `if (current cell is null) { B }`     |
+| `(A\|B)` | `if (current cell) { A } else { B }`  |
+| `(\|B)`  | `if (current cell is null) { B }`     |
 
 Other constructions, such as `(A|B|C)`, are also permitted, but are not particularly useful. (`(A|B|C)` is equivalent to `(AC|B)`.)
 
@@ -88,13 +88,13 @@ Other constructions, such as `(A|B|C)`, are also permitted, but are not particul
 
 The `]` instruction unconditionally jumps backward to the matching `[`. This can be used with conditions to create more familiar looping behavior.
 
-| Metatape    | Pseudocode                          |
-|:------------|:------------------------------------|
-| `[A]`       | `forever do { A }`                  |
-| `[A(])`     | `do { A } while (current cell)`     |
-| `([A(]))`   | `while (current cell) do { A }`     |
-| `[A(|])`    | `do { A } while (not current cell)` |
-| `(|[A(|]))` | `while (not current cell) do { A }` |
+| Metatape      | Pseudocode                          |
+|:--------------|:------------------------------------|
+| `[A]`         | `forever do { A }`                  |
+| `[A(])`       | `do { A } while (current cell)`     |
+| `([A(]))`     | `while (current cell) do { A }`     |
+| `[A(\|])`     | `do { A } while (not current cell)` |
+| `(\|[A(\|]))` | `while (not current cell) do { A }` |
 
 etc.
 
