@@ -74,7 +74,7 @@ When eight bits have been accumulated in the output buffer, it is flushed to `st
 
 ### Conditions
 
-The instructions `(`, `|`, and `)` can be used to construct the if-else statements found in many programming languages. Where `A`, `B`, and `C` are any sequence of zero or more instructions:
+The instructions `(`, `|`, and `)` can be used to construct the if-else statements found in many programming languages. Let `A`, `B`, and `C` be any sequence of zero or more instructions.
 
 | Metatape | Pseudocode                            |
 |:---------|:--------------------------------------|
@@ -100,7 +100,7 @@ etc.
 
 ### Blocks
 
-Code may be surrounded by `{` and `}` to form a block. Conditions and loops may not cross the boundary between blocks. For some instructions, such as [`f`](#forking), blocks may be used to collapse a sequence of characters into a single one
+Code may be surrounded by `{` and `}` to form a block. Conditions and loops may not cross the boundary between blocks. For some instructions, such as [`f`](#forking), blocks may be used to collapse a sequence of characters into a single one.
 
 ### Forking
 
@@ -108,7 +108,7 @@ Code may be surrounded by `{` and `}` to form a block. Conditions and loops may 
 
 When the runtime encounters a fork instruction, it first saves the current state of the entire tape structure (call this "state A"), and then executes the instructions within the fork (call the result of this "state B"). Once that is done, it copies the contents of the current cell of state B into the the current cell of state A and then restores state A.
 
-The main use of the fork instruction is copying data (e.g. `f<` to copy the contents of the cell on the left into the current one), but it can also be used to sandbox subroutines (e.g. `f!{messy subroutine}` prevents the messy subroutine from wrecking any data outside the current cell)
+The main use of the fork instruction is copying data (e.g. `f<` to copy the contents of the cell on the left into the current one), but it can also be used to sandbox subroutines. E.g. `f!{messy subroutine}` prevents the messy subroutine from wrecking any data outside the current cell.
 
 ### Subroutines
 
