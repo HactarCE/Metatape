@@ -45,7 +45,7 @@ Line comments begin with `//` and end with a line break. Block comments begin wi
 
 ### Basic instructions
 
-All instructions in Basic Metatape are a single character long.  Instructions are case-insensitive.
+All instructions in Basic Metatape are a single character long. Instructions are case-insensitive. Undefined instructions are not allowed.
 
 | Char | Mnemonic | Description                                                                        |
 |:-----|:---------|:-----------------------------------------------------------------------------------|
