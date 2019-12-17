@@ -100,7 +100,7 @@ etc.
 
 ### Blocks
 
-Code may be surrounded by `{` and `}` to form a block. Conditions and loops may not cross the boundary between blocks. For some instructions, such as [`f`](#forking), blocks may be used to collapse a sequence of characters into a single one.
+Code may be surrounded by `{` and `}` to form a block. A condition or loop must start and end in the same block. For example, `[( { [...())] } ])` is allowed, but `[ { ... ] }` is not. For some instructions, such as [`f`](#forking), blocks may be used to collapse a sequence of characters into a single one.
 
 ### Forking
 
