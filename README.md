@@ -128,7 +128,7 @@ When calling subroutines whose name is only a single character, the `{}` braces 
 
 ### Executable
 
-Unfortunately I'm having issues with cross-compilation, so only Linux executables are available for now. You can down the [latest release here](https://github.com/HactarCE/Metatape/releases/latest), and call it from the terminal.
+Only Linux binaries are available at present. You can download the [latest release here](https://github.com/HactarCE/Metatape/releases/latest), and call it from the terminal.
 
 ### Compile from source
 
