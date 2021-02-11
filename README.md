@@ -33,8 +33,6 @@ Metatape is somewhat like a Turing machine; a single "pointer" moves left and ri
 * If the pointer enters a null cell, that cell is initialized to an empty tape
 * If the pointer exits the "root" tape, then the "root" tape is placed inside a new tape (which the pointer now points to)
 
-There's also a stack, but it's only used for conditions (mostly for convenience).
-
 Basic Metatape is purely imperative. Supermetatape adds support for comments and subroutines.
 
 ## Comments and whitespace
@@ -47,28 +45,28 @@ Line comments begin with `//` and end with a line break. Block comments begin wi
 
 All instructions in Basic Metatape are a single character long. Instructions are case-insensitive. Undefined instructions are not allowed.
 
-| Char | Mnemonic | Description                                                                        |
-|:-----|:---------|:-----------------------------------------------------------------------------------|
-| `.`  | No-op    | No operation                                                                       |
-| `<`  | Left     | Move left along tape                                                               |
-| `>`  | Right    | Move right along tape                                                              |
-| `n`  | Null     | Set the current cell to null                                                       |
-| `e`  | Enter    | Enter the current cell                                                             |
-| `x`  | Exit     | Exit the current cell                                                              |
-| `(`  | If       | Do `^?`                                                                            |
-| `\|` | Else     | Skip forward to the matching `\|` or `)`                                           |
-| `)`  | End If   | No operation                                                                       |
-| `[`  | Loop     | No operation                                                                       |
-| `]`  | End Loop | Skip backward to the matching `[`                                                  |
-| `?`  | Random   | Generate a random bit; if that bit is `0`, do `n`                                  |
-| `i`  | Input    | Read a single bit from the input buffer; if that bit is `0`, do `n`                |
-| `o`  | Output   | If the current cell is null, append `0` to the output buffer; otherwise append `1` |
-| `h`  | Halt     | Halt the program (breakpoint)                                                      |
+| Char | Mnemonic | Description                                                                               |
+|:-----|:---------|:------------------------------------------------------------------------------------------|
+| `.`  | No-op    | No operation                                                                              |
+| `<`  | Left     | Move left along tape                                                                      |
+| `>`  | Right    | Move right along tape                                                                     |
+| `n`  | Null     | Set the current cell to null                                                              |
+| `e`  | Enter    | Enter the current cell                                                                    |
+| `x`  | Exit     | Exit the current cell                                                                     |
+| `(`  | If       | If the current cell is null, skip forward to the matching `\|` or `)`                     |
+| `\|` | Else     | Skip forward to the matching `\|` or `)`                                                  |
+| `)`  | End If   | No operation                                                                              |
+| `[`  | Loop     | No operation                                                                              |
+| `]`  | End Loop | Skip backward to the matching `[`                                                         |
+| `?`  | Random   | Generate a random bit; if that bit is `0`, set the current cell to null                   |
+| `i`  | Input    | Read a single bit from the input buffer; if that bit is `0`, set the current cell to null |
+| `o`  | Output   | If the current cell is null, append `0` to the output buffer; otherwise append `1`        |
+| `h`  | Halt     | Halt the program (breakpoint)                                                             |
 
 "Matching" is defined as such:
 
-* `(` pairs with `)`
-* `[` pairs with `]`
+* `(`, `|`, and `)` depend on depth inside parentheses; `(` increases depth while `)` decreases depth
+* `[` and `]` depend on depth inside brackets; `[` increases depth while `]` decreases depth
 
 When eight bits have been accumulated in the output buffer, it is flushed to `stdout` and the output buffer is reset.
 
